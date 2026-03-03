@@ -297,11 +297,11 @@
       <div class="feedback-text" id="feedback-msg"></div>
       <button class="btn btn-reset" id="btn-reset" type="button">🔄 重新測試</button>
     </div>
-  </div> <!-- result-box -->
+  </div> <!-- container -->
   <div class="brand-footer">
     <img src="tehtailogo.png" alt="德泰法蘭西床">
   </div>
-  </div>  <!-- container -->
+   
   <script>
     const quizUI = document.getElementById('quiz-ui');
     const resultBox = document.getElementById('result-box');
@@ -367,7 +367,7 @@ else bannerEl.classList.add('banner--danger');
       bannerSub.textContent = pack.sub;
       scoreLabel.textContent = pack.label;
 
-      meterBar.style.width = `${Math.round((score / 10) * 100)}%`;
+      meterBar.style.width = `${Math.round((score / 8) * 100)}%`;
       document.getElementById('score-detail').textContent = `你的分數：${score} 分（滿分 8 分）`;
 
       feedbackMsg.innerHTML = pack.text;
