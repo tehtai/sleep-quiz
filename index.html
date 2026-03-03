@@ -1,222 +1,251 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3/13 世界睡眠日 ｜ 睡眠模範生檢測【測試】 🌙</title>
-    <style>
-        /* 莫蘭迪柔和配色 */
-        :root {
-            --bg-color: #f4f1ea;        /* 奶油暖白 */
-            --card-bg: #ffffff;          /* 純白卡片 */
-            --text-main: #57606f;        /* 霧灰藍 */
-            --accent-pink: #e0afb4;      /* 乾燥玫瑰粉 */
-            --accent-blue: #a3b1c6;      /* 莫蘭迪淺藍 */
-            --shadow: 0 10px 40px rgba(163, 177, 198, 0.15);
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3/13 世界睡眠日 ｜ 睡眠模範生檢測【測試】 🌙</title>
+  <style>
+    :root{
+      --bg:#f4f1ea;
+      --card:#ffffff;
+      --text:#57606f;
+      --pink:#e0afb4;
+      --blue:#a3b1c6;
+      --border:#f0ede5;
+      --shadow:0 10px 40px rgba(163,177,198,.15);
+      --soft:#fdfcf9;
+      --soft2:#f9f9f9;
+    }
 
-        body {
-            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
+    *{ box-sizing:border-box; }
 
-        .container {
-            background-color: var(--card-bg);
-            padding: 35px 25px;
-            border-radius: 30px;
-            box-shadow: var(--shadow);
-            max-width: 450px;
-            width: 100%;
-            text-align: center;
-            box-sizing: border-box;
-        }
+    body{
+      margin:0;
+      padding:20px;
+      background:var(--bg);
+      color:var(--text);
+      font-family:'PingFang TC','Microsoft JhengHei',sans-serif;
+      line-height:1.6;
+    }
 
-        h1 { 
-            color: var(--accent-pink);
-            font-size: 1.4rem; 
-            margin-bottom: 10px; 
-            line-height: 1.4;
-            font-weight: bold;
-        }
-        
-        .subtitle { 
-            font-size: 0.9rem; 
-            color: var(--accent-blue);
-            margin-bottom: 25px;
-            font-weight: 500;
-        }
-        
-        /* 選項區塊：10題時在手機上會自動產生捲軸，不會擠爆畫面 */
-        .quiz-list {
-            max-height: 400px;
-            overflow-y: auto;
-            padding-right: 8px;
-            margin-bottom: 20px;
-            text-align: left;
-        }
+    .container{
+      max-width:480px;
+      margin:0 auto;
+      background:var(--card);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      padding:30px 22px;
+    }
 
-        /* 滾動條美化 */
-        .quiz-list::-webkit-scrollbar { width: 4px; }
-        .quiz-list::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 10px; }
+    h1{
+      margin:0 0 10px 0;
+      color:var(--pink);
+      font-size:1.45rem;
+      line-height:1.35;
+      font-weight:800;
+      text-align:center;
+    }
 
-        .quiz-item {
-            background: #fdfcf9;
-            padding: 14px 18px;
-            margin-bottom: 12px;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            border: 1px solid #f0ede5;
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
-        
-        .quiz-item:hover { 
-            background-color: #ffffff;
-            border-color: var(--accent-pink);
-            transform: translateY(-2px);
-        }
-        
-        input[type="checkbox"] {
-            margin-right: 15px;
-            transform: scale(1.2);
-            accent-color: var(--accent-pink);
-            cursor: pointer;
-            flex-shrink: 0;
-        }
+    .subtitle{
+      margin:0 0 22px 0;
+      color:var(--blue);
+      font-size:.95rem;
+      font-weight:600;
+      text-align:center;
+    }
 
-        .btn-main {
-            background-color: var(--accent-pink);
-            color: white;
-            border: none;
-            padding: 16px;
-            border-radius: 35px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(224, 175, 180, 0.3);
-        }
-        
-        .btn-main:hover { 
-            background-color: #d4a3a9;
-            transform: scale(1.02);
-        }
+    .quiz-list{
+      margin:0 0 18px 0;
+      padding:0;
+    }
 
-        .btn-reset {
-            background-color: var(--accent-blue);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 35px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 15px;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-reset:hover { background-color: #8e9db3; }
+    .quiz-item{
+      display:flex;
+      align-items:flex-start;
+      gap:14px;
+      background:var(--soft);
+      border:1px solid var(--border);
+      padding:14px 16px;
+      margin:0 0 12px 0;
+      border-radius:16px;
+      cursor:pointer;
+      transition:transform .15s ease, border-color .15s ease, background-color .15s ease;
+      user-select:none;
+    }
 
-        /* 結果顯示區 */
-        #result-box { 
-            display: none; 
-            animation: fadeIn 0.6s ease; 
-        }
+    .quiz-item:hover{
+      background:#fff;
+      border-color:var(--pink);
+      transform:translateY(-1px);
+    }
 
-        .score-title { font-size: 1.2rem; margin-bottom: 5px; }
-        .score { font-size: 4rem; font-weight: bold; color: var(--accent-pink); margin: 10px 0; }
-        .feedback-text { 
-            font-size: 1rem; 
-            line-height: 1.8; 
-            margin-bottom: 30px; 
-            text-align: left; 
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 20px;
-        }
+    .quiz-item span{
+      display:block;
+      font-size:.98rem;
+      line-height:1.45;
+    }
 
-        @keyframes fadeIn { 
-            from { opacity: 0; transform: translateY(15px); } 
-            to { opacity: 1; transform: translateY(0); } 
-        }
-    </style>
+    input[type="checkbox"]{
+      margin-top:2px;
+      transform:scale(1.15);
+      accent-color:var(--pink);
+      cursor:pointer;
+      flex:0 0 auto;
+    }
+
+    .btn{
+      width:100%;
+      border:none;
+      border-radius:999px;
+      padding:15px 16px;
+      font-size:1.05rem;
+      font-weight:800;
+      cursor:pointer;
+      transition:transform .15s ease, filter .15s ease;
+    }
+
+    .btn-main{
+      background:var(--pink);
+      color:#fff;
+      box-shadow:0 4px 12px rgba(224,175,180,.28);
+    }
+
+    .btn-main:hover{ transform:scale(1.01); filter:brightness(.98); }
+
+    .btn-reset{
+      margin-top:14px;
+      background:var(--blue);
+      color:#fff;
+    }
+
+    .btn-reset:hover{ transform:scale(1.01); filter:brightness(.97); }
+
+    #result-box{ display:none; }
+
+    .score-title{
+      text-align:center;
+      font-size:1.05rem;
+      font-weight:800;
+      color:var(--blue);
+      margin-bottom:6px;
+    }
+
+    .score{
+      text-align:center;
+      font-size:3.6rem;
+      font-weight:900;
+      color:var(--pink);
+      margin:8px 0 14px 0;
+      letter-spacing:.5px;
+    }
+
+    .feedback-text{
+      background:var(--soft2);
+      padding:18px 18px;
+      border-radius:18px;
+      font-size:1rem;
+      line-height:1.85;
+      margin:0 0 12px 0;
+    }
+
+    .fade-in{
+      animation:fadeIn .45s ease;
+    }
+
+    @keyframes fadeIn{
+      from{ opacity:0; transform:translateY(10px); }
+      to{ opacity:1; transform:translateY(0); }
+    }
+
+    @media (max-width:420px){
+      body{ padding:14px; }
+      .container{ padding:24px 16px; border-radius:22px; }
+      h1{ font-size:1.28rem; }
+      .subtitle{ font-size:.9rem; }
+      .quiz-item{ padding:12px 14px; }
+      .score{ font-size:3.2rem; }
+    }
+  </style>
 </head>
-<body>
 
-<div class="container">
+<body>
+  <div class="container">
     <div id="quiz-ui">
-        <h1>🌙 你是「睡眠模範生」<br>還是「熬夜特種兵」？🎓</h1>
-        <p class="subtitle">✨ 3/13 是世界睡眠日 ✨<br>做個簡單的小測驗，檢視一下日常的睡眠狀況吧！</p>
-        
-        <div class="quiz-list">
-            <label class="quiz-item"><input type="checkbox" class="q-check"> 🕰️ 規律作息：每天固定時間起床</label>
-            <label class="quiz-item"><input type="checkbox" class="q-check"> 📱 數位斷食：睡前1小時不看手機</label>
-            <label class="quiz-item"><input type="checkbox" class="q-check"> ☕ 避開刺激：下午3點後不攝取咖啡因</label>
-            <label class="quiz-item"><input type="checkbox" class="q-check"> 🧘 舒壓儀式：睡前看書、冥想或聽音樂</label>
-            <label class="quiz-item"><input type="checkbox" class="q-check"> 🕯️ 環境控制：臥室全暗且溫度舒適</label>
-            <label class="quiz-item"><input type="checkbox" class="q-check"> 🥃 酒精斷捨離：睡前不依賴酒精助眠</label>
-            <label class="quiz-item"><input type="checkbox" class="q-check"> 🍛 腸胃放鬆：睡前3小時不吃大餐或宵夜</label>
-            <label class="quiz-item"><input type="checkbox" class="q-check"> 🚀 秒睡體質：躺下後20分鐘內能入睡</label>
-            <label class="quiz-item"><input type="checkbox" class="q-check"> 💤 睡眠深度：半夜不輕易醒來或能秒睡回</label>
-            <label class="quiz-item"><input type="checkbox" class="q-check"> ☀️ 晨間精神：醒來感到神清氣爽而非疲累</label>
-        </div>
-        
-        <button class="btn-main" onclick="showResults()">查看我的檢測結果 ✨</button>
+      <h1>🌙 你是「睡眠模範生」<br>還是「熬夜特種兵」？🎓</h1>
+      <p class="subtitle">✨ 3/13 是世界睡眠日 ✨<br>做個簡單小測驗，檢視一下日常睡眠狀況吧！</p>
+
+      <div class="quiz-list" id="quiz-list">
+        <label class="quiz-item"><input type="checkbox" class="q-check"><span>🕰️ 規律作息：每天固定時間起床</span></label>
+        <label class="quiz-item"><input type="checkbox" class="q-check"><span>📱 數位斷食：睡前 1 小時不看手機</span></label>
+        <label class="quiz-item"><input type="checkbox" class="q-check"><span>☕ 避開刺激：下午 3 點後不攝取咖啡因</span></label>
+        <label class="quiz-item"><input type="checkbox" class="q-check"><span>🧘 舒壓儀式：睡前看書、冥想或聽音樂</span></label>
+        <label class="quiz-item"><input type="checkbox" class="q-check"><span>🕯️ 環境控制：臥室全暗且溫度舒適</span></label>
+        <label class="quiz-item"><input type="checkbox" class="q-check"><span>🥃 酒精斷捨離：睡前不依賴酒精助眠</span></label>
+        <label class="quiz-item"><input type="checkbox" class="q-check"><span>🍛 腸胃放鬆：睡前 3 小時不吃大餐或宵夜</span></label>
+        <label class="quiz-item"><input type="checkbox" class="q-check"><span>🚀 秒睡體質：躺下後 20 分鐘內能入睡</span></label>
+        <label class="quiz-item"><input type="checkbox" class="q-check"><span>💤 睡眠深度：半夜不輕易醒來或能秒睡回去</span></label>
+        <label class="quiz-item"><input type="checkbox" class="q-check"><span>☀️ 晨間精神：醒來神清氣爽而非疲累</span></label>
+      </div>
+
+      <button class="btn btn-main" id="btn-result" type="button">查看我的檢測結果 ✨</button>
     </div>
 
     <div id="result-box">
-        <div class="score-title">📊 我的好眠指數</div>
-        <div class="score" id="score-val">0 / 10</div>
-        <div class="feedback-text" id="feedback-msg"></div>
-        <button class="btn-reset" onclick="resetGame()">🔄 重新測試</button>
+      <div class="score-title">📊 我的好眠指數</div>
+      <div class="score" id="score-val">0 / 10</div>
+      <div class="feedback-text" id="feedback-msg"></div>
+      <button class="btn btn-reset" id="btn-reset" type="button">🔄 重新測試</button>
     </div>
-</div>
+  </div>
 
-<script>
-    // 顯示結果
-    function showResults() {
-        const checkedCount = document.querySelectorAll('.q-check:checked').length;
-        const scoreDisplay = document.getElementById('score-val');
-        const feedbackMsg = document.getElementById('feedback-msg');
-        
-        scoreDisplay.innerText = checkedCount + " / 10";
-        
-        if (checkedCount >= 9) {
-            feedbackMsg.innerHTML = "🏆 <strong>傳說級模範生</strong><br>恭喜你！你簡直是睡眠界的資優生。規律的作息讓你擁有極高的生活品質，請繼續保持這份幸福的能量，讓身體每天都在巔峰狀態！✨";
-        } else if (checkedCount >= 6) {
-            feedbackMsg.innerHTML = "🌿 <strong>穩定優等生</strong><br>很棒！你的睡眠基礎打得很穩。雖然偶爾會被生活瑣事干擾，但大部分時間都能好好休息。只要再調整一下微小的壞習慣，就能晉升神人級別囉！💪";
-        } else if (checkedCount >= 3) {
-            feedbackMsg.innerHTML = "⚠️ <strong>熬夜特種兵</strong><br>警報響起！你的大腦正在發出疲勞訊號。雖然現在還撐得住，但長期下來身體會抗議的。今晚試著提早 30 分鐘關燈，先從改善一兩項開始吧！🕯️";
-        } else {
-            feedbackMsg.innerHTML = "😱 <strong>睡眠特困戶</strong><br>天啊！你的睡眠債已經嚴重超支了！現在的你可能隨時處於電力不足狀態。如果嘗試調整作息後仍無法改善，建議諮詢專業門診。今晚請放下所有事，直接原地躺平吧！🛌";
-        }
+  <script>
+    const quizUI = document.getElementById('quiz-ui');
+    const resultBox = document.getElementById('result-box');
+    const scoreVal = document.getElementById('score-val');
+    const feedbackMsg = document.getElementById('feedback-msg');
+    const btnResult = document.getElementById('btn-result');
+    const btnReset = document.getElementById('btn-reset');
 
-        document.getElementById('quiz-ui').style.display = 'none';
-        document.getElementById('result-box').style.display = 'block';
-        window.scrollTo(0, 0); // 確保結果頁面在頂部
+    function getScore(){
+      return document.querySelectorAll('.q-check:checked').length;
     }
 
-    // 重新測試（修復後的穩定版）
-    function resetGame() {
-        const checkboxes = document.querySelectorAll('.q-check');
-        checkboxes.forEach(cb => cb.checked = false); // 清空勾選
-        document.getElementById('result-box').style.display = 'none'; // 隱藏結果
-        document.getElementById('quiz-ui').style.display = 'block'; // 顯示題目
-        window.scrollTo(0, 0);
+    function feedbackHTML(score){
+      if (score >= 9) {
+        return "🏆 <strong>傳說級模範生</strong><br>恭喜你！你簡直是睡眠界資優生。規律作息讓你擁有很高的生活品質，繼續保持這份幸福能量，讓身體每天都在巔峰狀態！✨";
+      }
+      if (score >= 6) {
+        return "🌿 <strong>穩定優等生</strong><br>很棒！你的睡眠基礎很穩。雖然偶爾被生活干擾，但大多數時間都能好好休息。再調整一兩個小習慣，就能往神人級邁進囉！💪";
+      }
+      if (score >= 3) {
+        return "⚠️ <strong>熬夜特種兵</strong><br>警報響起！你的大腦正在發出疲勞訊號。短期撐得住，但長期身體會抗議。今晚先試著提早 30 分鐘關燈，從改善一兩項開始吧！🕯️";
+      }
+      return "😱 <strong>睡眠特困戶</strong><br>你的睡眠債可能已經超支了！如果嘗試調整作息仍無法改善，建議諮詢專業門診。今晚先放下所有事，直接原地躺平吧！🛌";
     }
-</script>
 
+    function showResults(){
+      const score = getScore();
+      scoreVal.textContent = `${score} / 10`;
+      feedbackMsg.innerHTML = feedbackHTML(score);
+
+      quizUI.style.display = 'none';
+      resultBox.style.display = 'block';
+      resultBox.classList.remove('fade-in');
+      void resultBox.offsetWidth;
+      resultBox.classList.add('fade-in');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetGame(){
+      document.querySelectorAll('.q-check').forEach(cb => cb.checked = false);
+      resultBox.style.display = 'none';
+      quizUI.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    btnResult.addEventListener('click', showResults);
+    btnReset.addEventListener('click', resetGame);
+  </script>
 </body>
 </html>
