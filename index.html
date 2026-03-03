@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3/13 世界睡眠日 ｜ 睡眠模範生檢測【測試】 🌙</title>
+  <title>🌙睡眠模範生檢測｜德泰法蘭西床 </title>
   <style>
     :root{
       --bg:#f4f1ea;
@@ -16,9 +16,7 @@
       --soft:#fdfcf9;
       --soft2:#f9f9f9;
     }
-
     *{ box-sizing:border-box; }
-
     body{
       margin:0;
       padding:20px;
@@ -27,7 +25,6 @@
       font-family:'PingFang TC','Microsoft JhengHei',sans-serif;
       line-height:1.6;
     }
-
     .container{
       max-width:480px;
       margin:0 auto;
@@ -36,7 +33,6 @@
       box-shadow:var(--shadow);
       padding:30px 22px;
     }
-
     h1{
       margin:0 0 10px 0;
       color:var(--pink);
@@ -45,20 +41,23 @@
       font-weight:800;
       text-align:center;
     }
-
     .subtitle{
-      margin:0 0 22px 0;
+      margin:0 0 14px 0;
       color:var(--blue);
       font-size:.95rem;
-      font-weight:600;
+      font-weight:650;
       text-align:center;
     }
-
-    .quiz-list{
-      margin:0 0 18px 0;
-      padding:0;
+    .note{
+      margin:0 0 20px 0;
+      background:var(--soft2);
+      border-radius:16px;
+      padding:12px 14px;
+      font-size:.9rem;
+      line-height:1.7;
     }
-
+    .note strong{ color:var(--text); }
+    .quiz-list{ margin:0 0 18px 0; padding:0; }
     .quiz-item{
       display:flex;
       align-items:flex-start;
@@ -72,19 +71,16 @@
       transition:transform .15s ease, border-color .15s ease, background-color .15s ease;
       user-select:none;
     }
-
     .quiz-item:hover{
       background:#fff;
       border-color:var(--pink);
       transform:translateY(-1px);
     }
-
     .quiz-item span{
       display:block;
       font-size:.98rem;
       line-height:1.45;
     }
-
     input[type="checkbox"]{
       margin-top:2px;
       transform:scale(1.15);
@@ -92,7 +88,6 @@
       cursor:pointer;
       flex:0 0 auto;
     }
-
     .btn{
       width:100%;
       border:none;
@@ -103,40 +98,88 @@
       cursor:pointer;
       transition:transform .15s ease, filter .15s ease;
     }
-
     .btn-main{
       background:var(--pink);
       color:#fff;
       box-shadow:0 4px 12px rgba(224,175,180,.28);
     }
-
     .btn-main:hover{ transform:scale(1.01); filter:brightness(.98); }
-
     .btn-reset{
       margin-top:14px;
       background:var(--blue);
       color:#fff;
     }
-
     .btn-reset:hover{ transform:scale(1.01); filter:brightness(.97); }
 
     #result-box{ display:none; }
+    .fade-in{ animation:fadeIn .45s ease; }
+    @keyframes fadeIn{
+      from{ opacity:0; transform:translateY(10px); }
+      to{ opacity:1; transform:translateY(0); }
+    }
+
+    .banner{
+      border-radius:18px;
+      padding:14px 16px;
+      margin:0 0 14px 0;
+      text-align:center;
+      font-weight:900;
+      letter-spacing:.3px;
+      background:linear-gradient(180deg, rgba(224,175,180,.22), rgba(163,177,198,.16));
+    }
+    .banner .big{
+      font-size:1.2rem;
+      margin-bottom:4px;
+    }
+    .banner .small{
+      font-size:.95rem;
+      font-weight:700;
+      opacity:.9;
+    }
 
     .score-title{
       text-align:center;
-      font-size:1.05rem;
+      font-size:1.02rem;
       font-weight:800;
       color:var(--blue);
-      margin-bottom:6px;
+      margin:8px 0 8px 0;
     }
 
-    .score{
-      text-align:center;
-      font-size:3.6rem;
-      font-weight:900;
-      color:var(--pink);
-      margin:8px 0 14px 0;
-      letter-spacing:.5px;
+    .meter{
+      background:#efece4;
+      border-radius:999px;
+      height:14px;
+      overflow:hidden;
+      border:1px solid var(--border);
+      margin:0 0 10px 0;
+    }
+    .meter > div{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg, rgba(163,177,198,.9), rgba(224,175,180,.95));
+      transition:width .4s ease;
+    }
+
+    .score-line{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin:0 0 10px 0;
+      font-weight:800;
+    }
+    .score-badge{
+      padding:6px 10px;
+      border-radius:999px;
+      background:var(--soft2);
+      border:1px solid var(--border);
+      font-size:.92rem;
+      white-space:nowrap;
+    }
+    .score-detail{
+      font-size:.92rem;
+      opacity:.9;
+      white-space:nowrap;
     }
 
     .feedback-text{
@@ -148,22 +191,12 @@
       margin:0 0 12px 0;
     }
 
-    .fade-in{
-      animation:fadeIn .45s ease;
-    }
-
-    @keyframes fadeIn{
-      from{ opacity:0; transform:translateY(10px); }
-      to{ opacity:1; transform:translateY(0); }
-    }
-
     @media (max-width:420px){
       body{ padding:14px; }
       .container{ padding:24px 16px; border-radius:22px; }
       h1{ font-size:1.28rem; }
       .subtitle{ font-size:.9rem; }
       .quiz-item{ padding:12px 14px; }
-      .score{ font-size:3.2rem; }
     }
   </style>
 </head>
@@ -172,9 +205,14 @@
   <div class="container">
     <div id="quiz-ui">
       <h1>🌙 你是「睡眠模範生」<br>還是「熬夜特種兵」？🎓</h1>
-      <p class="subtitle">✨ 3/13 是世界睡眠日 ✨<br>做個簡單小測驗，檢視一下日常睡眠狀況吧！</p>
+      <p class="subtitle">✨ 3/13 世界睡眠日 ✨<br> 做個簡單的小測驗，檢視一下日常的睡眠狀況吧！</p>
 
-      <div class="quiz-list" id="quiz-list">
+      <div class="note">
+        <strong>作答方式：</strong>請以<strong>近 2 週～1 個月</strong>「多數日子」的狀態為準（偶爾例外沒關係）。<br>
+        <strong>計分：</strong>每勾選 1 項 +1 分，<strong>滿分 10 分</strong>。
+      </div>
+
+      <div class="quiz-list">
         <label class="quiz-item"><input type="checkbox" class="q-check"><span>🕰️ 規律作息：每天固定時間起床</span></label>
         <label class="quiz-item"><input type="checkbox" class="q-check"><span>📱 數位斷食：睡前 1 小時不看手機</span></label>
         <label class="quiz-item"><input type="checkbox" class="q-check"><span>☕ 避開刺激：下午 3 點後不攝取咖啡因</span></label>
@@ -191,8 +229,22 @@
     </div>
 
     <div id="result-box">
+      <div class="banner" id="emoji-banner">
+        <div class="big" id="banner-title">🌙</div>
+        <div class="small" id="banner-sub">你的結果出爐啦</div>
+      </div>
+
       <div class="score-title">📊 我的好眠指數</div>
-      <div class="score" id="score-val">0 / 10</div>
+
+      <div class="meter" aria-label="sleep score meter">
+        <div id="meter-bar"></div>
+      </div>
+
+      <div class="score-line">
+        <div class="score-badge" id="score-label">—</div>
+        <div class="score-detail" id="score-detail">滿分 10 分</div>
+      </div>
+
       <div class="feedback-text" id="feedback-msg"></div>
       <button class="btn btn-reset" id="btn-reset" type="button">🔄 重新測試</button>
     </div>
@@ -201,32 +253,64 @@
   <script>
     const quizUI = document.getElementById('quiz-ui');
     const resultBox = document.getElementById('result-box');
-    const scoreVal = document.getElementById('score-val');
     const feedbackMsg = document.getElementById('feedback-msg');
     const btnResult = document.getElementById('btn-result');
     const btnReset = document.getElementById('btn-reset');
+
+    const bannerTitle = document.getElementById('banner-title');
+    const bannerSub = document.getElementById('banner-sub');
+    const scoreLabel = document.getElementById('score-label');
+    const meterBar = document.getElementById('meter-bar');
 
     function getScore(){
       return document.querySelectorAll('.q-check:checked').length;
     }
 
-    function feedbackHTML(score){
+    function resultPack(score){
       if (score >= 9) {
-        return "🏆 <strong>傳說級模範生</strong><br>恭喜你！你簡直是睡眠界資優生。規律作息讓你擁有很高的生活品質，繼續保持這份幸福能量，讓身體每天都在巔峰狀態！✨";
+        return {
+          banner: "🏆🌙✨",
+          sub: "傳說級模範生：你是睡眠界資優生！",
+          label: "好眠指數：超優",
+          text: "恭喜你！你的作息與睡眠品質都很到位。規律睡眠會讓精神、代謝與情緒更穩，繼續保持這份幸福能量吧！✨"
+        };
       }
       if (score >= 6) {
-        return "🌿 <strong>穩定優等生</strong><br>很棒！你的睡眠基礎很穩。雖然偶爾被生活干擾，但大多數時間都能好好休息。再調整一兩個小習慣，就能往神人級邁進囉！💪";
+        return {
+          banner: "🌿😴👍",
+          sub: "穩定優等生：大多數日子都睡得不錯",
+          label: "好眠指數：良好",
+          text: "很棒！你的睡眠基礎很穩。只要再挑 1～2 項最容易做到的習慣加強（例如睡前少滑手機、晚點心減量），就很有機會往上加分！💪"
+        };
       }
       if (score >= 3) {
-        return "⚠️ <strong>熬夜特種兵</strong><br>警報響起！你的大腦正在發出疲勞訊號。短期撐得住，但長期身體會抗議。今晚先試著提早 30 分鐘關燈，從改善一兩項開始吧！🕯️";
+        return {
+          banner: "⚠️🕯️🥱",
+          sub: "熬夜特種兵：疲勞訊號出現了",
+          label: "好眠指數：需加強",
+          text: "警報響起！短期撐得住，但長期身體會抗議。今晚先從「提早 30 分鐘關燈」或「固定起床時間」選一個開始，最有效。"
+        };
       }
-      return "😱 <strong>睡眠特困戶</strong><br>你的睡眠債可能已經超支了！如果嘗試調整作息仍無法改善，建議諮詢專業門診。今晚先放下所有事，直接原地躺平吧！🛌";
+      return {
+        banner: "😱🛌🌀",
+        sub: "睡眠特困戶：睡眠債可能已超支",
+        label: "好眠指數：危險",
+        text: "你可能長期處在電力不足狀態。先試著建立最小版本的好眠流程：固定起床時間＋睡前 1 小時不滑手機。如果持續失眠或白天嚴重疲倦，建議諮詢專業門診。"
+      };
     }
 
     function showResults(){
       const score = getScore();
-      scoreVal.textContent = `${score} / 10`;
-      feedbackMsg.innerHTML = feedbackHTML(score);
+      const pack = resultPack(score);
+
+      bannerTitle.textContent = pack.banner;
+      bannerSub.textContent = pack.sub;
+      scoreLabel.textContent = pack.label;
+
+      meterBar.style.width = `${Math.round((score / 10) * 100)}%`;
+      document.getElementById('score-detail').textContent = `你的分數：${score} 分（滿分 10 分）`;
+
+      feedbackMsg.innerHTML = `<strong>${pack.label}</strong><br>${pack.text}`;
 
       quizUI.style.display = 'none';
       resultBox.style.display = 'block';
