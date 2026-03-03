@@ -233,6 +233,20 @@
       .subtitle{ font-size:.9rem; }
       .quiz-item{ padding:12px 14px; }
     }
+/* LOGO的樣式 --*/
+.brand-footer{
+  text-align:center;
+  margin-top:24px;
+  padding-top:18px;
+  border-top:1px solid var(--border);
+  opacity:.65;
+}
+
+.brand-footer img{
+  max-width:110px;
+  height:auto;
+}
+/* LOGO的樣式 --*/  
   </style>
 </head>
 
@@ -245,6 +259,7 @@
       <div class="note">
         <strong>作答方式：</strong>請以<strong>近 2 週～1 個月</strong>「多數日子」的狀態為準（偶爾例外沒關係）。<br>
         <strong>計分：</strong>每勾選 1 項 +1 分，<strong>滿分 10 分</strong>。
+        
       </div>
 
       <div class="quiz-list">
@@ -263,6 +278,9 @@
       <button class="btn btn-main" id="btn-result" type="button">查看我的檢測結果 ✨</button>
     </div>
 
+
+
+    
     <div id="result-box">
       <div class="banner" id="emoji-banner">
         <div class="big" id="banner-title">🌙</div>
@@ -283,8 +301,11 @@
       <div class="feedback-text" id="feedback-msg"></div>
       <button class="btn btn-reset" id="btn-reset" type="button">🔄 重新測試</button>
     </div>
+  </div> <!-- result-box -->
+  <div class="brand-footer">
+    <img src="tehtailogo.png" alt="德泰法蘭西床">
   </div>
-
+  </div>  <!-- container -->
   <script>
     const quizUI = document.getElementById('quiz-ui');
     const resultBox = document.getElementById('result-box');
@@ -373,6 +394,7 @@ else bannerEl.classList.add('banner--danger');
 
     btnResult.addEventListener('click', showResults);
     btnReset.addEventListener('click', resetGame);
+    
   </script>
 </body>
 </html>
