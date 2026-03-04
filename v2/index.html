@@ -201,7 +201,7 @@
       gap:10px;
       margin:0 0 10px 0;
       font-weight:800;
-      lex-wrap: wrap;  /* 左右可以掉行 */
+      flex-wrap:wrap; /* ✅ 修正 */
     }
     .score-badge{
       padding:6px 12px;
@@ -211,14 +211,14 @@
       color:#7f6e5c;
       font-size:.92rem;
       white-space:normal;
-      line-height: 1.4;
+      line-height:1.4;
     }
     .score-detail{
       font-size:.92rem;
       opacity:.9;
       white-space:normal;
-      overflow-wrap: anywhere;  
-      text-align: right;
+      overflow-wrap:anywhere;
+      text-align:right;
     }
 
     .feedback-text{
@@ -230,7 +230,6 @@
       margin:0 0 12px 0;
     }
 
-    /* 結果頁按鈕區（避免桌機跑版） */
     .result-actions{
       display:flex;
       gap:10px;
@@ -262,24 +261,20 @@
       h1{ font-size:1.28rem; }
       .subtitle{ font-size:.9rem; }
       .quiz-item{ padding:12px 14px; }
-     
-      /*防止字體放大時爆版 */
-  .score-line{
-    flex-direction: column;
-    align-items: flex-start;
-    gap:6px;
-  }
-  .score-detail{
-    text-align:left;
-    white-space:normal;
-    overflow-wrap:anywhere;
-  }
-  .score-badge{
-    white-space:normal;
-  }
+
+      .score-line{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:6px;
+      }
+      .score-detail{
+        text-align:left;
+        white-space:normal;
+        overflow-wrap:anywhere;
+      }
+      .score-badge{ white-space:normal; }
     }
 
-    /* LOGO footer */
     .brand-footer{
       text-align:center;
       margin-top:12px;
@@ -291,7 +286,7 @@
       display:inline-block;
     }
 
-    /* ===== 分享圖卡 Modal（不滾動、不裁切） ===== */
+    /* ===== 分享圖卡 Modal（✅ 不滾動、不裁切） ===== */
     .modal{
       position:fixed;
       inset:0;
@@ -305,18 +300,21 @@
     .modal.open{ display:flex; }
 
     .modal-panel{
-      width:min(820px, 96vw);
+      width:min(860px, 96vw);
+      max-height:92vh;                 /* ✅ 限制高度，避免整個畫面被撐爆 */
       background:#fff;
       border-radius:18px;
       box-shadow:0 18px 60px rgba(0,0,0,.25);
       padding:14px;
+      display:flex;                    /* ✅ 讓 preview-wrap 能拿到固定高度 */
+      flex-direction:column;
+      gap:10px;
     }
     .modal-top{
       display:flex;
       justify-content:space-between;
       align-items:center;
       gap:10px;
-      margin-bottom:10px;
     }
     .modal-top .hint{
       font-weight:800;
@@ -332,20 +330,25 @@
       cursor:pointer;
       font-weight:900;
       color:#6f6256;
+      flex:0 0 auto;
     }
 
     .preview-wrap{
+      flex:1 1 auto;                   /* ✅ 占滿剩餘可用高度 */
+      min-height:220px;
       width:100%;
       display:flex;
       justify-content:center;
-      overflow:hidden;
+      align-items:center;              /* ✅ 垂直置中 */
+      overflow:hidden;                 /* ✅ 不滾動 */
       background:#f7f4ef;
       border:1px solid #efe6d9;
       border-radius:14px;
-      padding:14px 8px;
+      padding:12px;
+      position:relative;
     }
 
-    /* 固定 1080x1920 原尺寸（生成用） */
+    /* 固定 1080x1920 原尺寸（輸出用） */
     #shareCard{
       width:1080px;
       height:1920px;
@@ -356,19 +359,10 @@
       flex-direction:column;
       align-items:center;
       justify-content:flex-start;
-      box-sizing:border-box;
       color:var(--cardText);
       position:relative;
-    }
-
-    /* 預覽縮小：桌機/手機都看得到完整圖卡 */
-    .preview-wrap #shareCard{
-      transform:scale(.33);
-        transform-origin: top center;
-        will-change: transform;
-    }
-    @media (max-width:520px){
-      .preview-wrap #shareCard{ transform:scale(.23); }
+      transform-origin:center center;  /* ✅ 由 JS 套 scale */
+      will-change:transform;
     }
 
     .sc-title{
@@ -473,11 +467,10 @@
     .modal-actions{
       display:flex;
       gap:10px;
-      margin-top:10px;
       flex-wrap:wrap;
     }
     .modal-actions button{
-      flex:1 1 160px;
+      flex:1 1 200px;
     }
   </style>
 </head>
@@ -528,7 +521,6 @@
 
       <div class="feedback-text" id="feedback-msg"></div>
 
-      <!-- ✅ 新增：產生圖卡 & 分享/下載（不影響你原本設定） -->
       <div class="result-actions">
         <button class="btn-secondary" id="btn-card" type="button">🖼️ 產生結果圖卡</button>
         <button class="btn-secondary" id="btn-share" type="button">📣 分享結果</button>
@@ -544,19 +536,16 @@
     </a>
   </div>
 
-  <!-- ✅ Modal：預覽 1080x1920（縮小顯示） -->
   <div class="modal" id="cardModal" aria-hidden="true">
     <div class="modal-panel">
       <div class="modal-top">
-        <div class="hint">圖卡預覽（下載會是 1080×1920）</div>
+        <div class="hint">我的好眠指數</div>
         <button class="icon-btn" id="btnCloseModal" type="button">✕</button>
       </div>
 
-      <div class="preview-wrap">
+      <div class="preview-wrap" id="previewWrap">
         <div id="shareCard">
           <div class="sc-title" id="scTitle">🌙 你是「睡眠模範生」還是「夜貓進修生」？🎓</div>
-
-          <!-- 這裡只顯示一次 emoji（避免你說的「多一次」問題） -->
           <div class="sc-emoji" id="scEmoji">🌙</div>
 
           <div class="sc-h2">我的好眠指數</div>
@@ -581,13 +570,12 @@
       </div>
 
       <div class="modal-actions">
-        <button class="btn-secondary" id="btnDownloadCard" type="button">⬇️ 下載圖卡</button>
-        <button class="btn-secondary" id="btnSystemShare" type="button">📤 用系統分享（手機支援）</button>
+        <button class="btn-secondary" id="btnDownloadCard" type="button">⬇️ 下載結果圖片</button>
+        <button class="btn-secondary" id="btnSystemShare" type="button">📤 分享到社群</button>
       </div>
     </div>
   </div>
 
-  <!-- html2canvas -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
   <script>
@@ -602,7 +590,6 @@
     const scoreLabel = document.getElementById('score-label');
     const meterBar = document.getElementById('meter-bar');
 
-    // share modal
     const cardModal = document.getElementById('cardModal');
     const btnCard = document.getElementById('btn-card');
     const btnShare = document.getElementById('btn-share');
@@ -610,7 +597,8 @@
     const btnDownloadCard = document.getElementById('btnDownloadCard');
     const btnSystemShare = document.getElementById('btnSystemShare');
 
-    // share card nodes
+    const previewWrap = document.getElementById('previewWrap');
+
     const shareCard = document.getElementById('shareCard');
     const scEmoji = document.getElementById('scEmoji');
     const scScore = document.getElementById('scScore');
@@ -684,44 +672,42 @@
       else shareCard.classList.add('level-danger');
     }
 
-    // ✅ 產生 QR（SVG，穩，不會變色）
-    function generateQrSvg(text, size=260){
-      // 用第三方簡易 API 拿 SVG（顏色不亂、解析度穩）
-      // 你也可以換成你自己的 QR 產生方式
-      const url = "https://api.qrserver.com/v1/create-qr-code/?format=svg&size="+size+"x"+size+"&data=" + encodeURIComponent(text);
-      return fetch(url).then(r=>r.text());
+    function fitShareCardPreview(){
+      if(!previewWrap) return;
+
+      const padding = 24; // preview-wrap 內部留白（避免貼邊）
+      const availW = previewWrap.clientWidth - padding;
+      const availH = previewWrap.clientHeight - padding;
+
+      const baseW = 1080;
+      const baseH = 1920;
+
+      const scale = Math.min(availW / baseW, availH / baseH);
+
+      // 安全值：避免某些極端尺寸算出 0
+      const safeScale = Math.max(0.05, Math.min(scale, 1));
+
+      shareCard.style.transform = `scale(${safeScale})`;
     }
-function fitShareCardPreview(){
-  const wrap = document.querySelector('.preview-wrap');
-  if(!wrap) return;
 
-  // 可用空間（留一點邊界）
-  const padding = 16;
-  const availW = wrap.clientWidth - padding * 2;
-  const availH = wrap.clientHeight - padding * 2;
-
-  // 分享卡原尺寸
-  const baseW = 1080;
-  const baseH = 1920;
-
-  // 依照寬高取最小縮放，避免裁切
-  const scale = Math.min(availW / baseW, availH / baseH);
-
-  // 套用縮放
-  shareCard.style.transform = `scale(${scale})`;
-}
     function openModal(){
-  cardModal.classList.add('open');
-  cardModal.setAttribute('aria-hidden','false');
+      cardModal.classList.add('open');
+      cardModal.setAttribute('aria-hidden','false');
 
-  // ✅ 等 DOM 顯示後再算縮放
-  requestAnimationFrame(() => {
-    fitShareCardPreview();
-  });
-}
+      // 等畫面真的 render 完再算
+      requestAnimationFrame(() => {
+        fitShareCardPreview();
+      });
+    }
+
     function closeModal(){
       cardModal.classList.remove('open');
       cardModal.setAttribute('aria-hidden','true');
+    }
+
+    function generateQrSvg(text, size=260){
+      const url = "https://api.qrserver.com/v1/create-qr-code/?format=svg&size="+size+"x"+size+"&data=" + encodeURIComponent(text);
+      return fetch(url).then(r=>r.text());
     }
 
     async function buildShareCard(){
@@ -730,42 +716,44 @@ function fitShareCardPreview(){
       const score = latestScore;
       const pack = latestPack;
 
-      // ✅ 只顯示一次 emoji
-      scEmoji.textContent = pack.banner;
-
+      scEmoji.textContent = pack.banner; // ✅ 只顯示一次
       scScore.textContent = `${score} / 8`;
       scLabel.textContent = pack.label;
-
       scType.textContent = pack.type;
       scSub.textContent = pack.sub2;
 
       setShareCardLevel(score);
 
-      // QR：指向測驗頁（你現在的 GitHub Pages）
-      const quizUrl = location.href; // 會是目前頁面網址
-      scQr.innerHTML = ""; // 清空
+      const quizUrl = location.href;
+      scQr.innerHTML = "";
       try{
         const svg = await generateQrSvg(quizUrl, 260);
         scQr.innerHTML = svg;
       }catch(e){
         scQr.textContent = "QR 產生失敗";
       }
+
+      // 更新完內容後再 fit 一次（避免文字高度變動造成縮放不準）
+      requestAnimationFrame(() => {
+        fitShareCardPreview();
+      });
     }
 
     async function exportCardBlob(){
-  const prevTransform = shareCard.style.transform;
-  shareCard.style.transform = 'none';
+      // ✅ 輸出前先取消 transform，確保真 1080x1920
+      const prevTransform = shareCard.style.transform;
+      shareCard.style.transform = 'none';
 
-  const canvas = await html2canvas(shareCard, {
-    scale: 2,
-    useCORS: true,
-    backgroundColor: null
-  });
+      const canvas = await html2canvas(shareCard, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: null
+      });
 
-  shareCard.style.transform = prevTransform;
+      shareCard.style.transform = prevTransform;
 
-  return new Promise(resolve => canvas.toBlob(resolve, "image/png", 1));
-}
+      return new Promise(resolve => canvas.toBlob(resolve, "image/png", 1));
+    }
 
     async function downloadCard(){
       const blob = await exportCardBlob();
@@ -786,7 +774,6 @@ function fitShareCardPreview(){
 
       const file = new File([blob], "sleep-result.png", { type:"image/png" });
 
-      // Web Share API（手機 Chrome / Samsung Internet 通常 OK；iOS Safari 視版本）
       if(navigator.share && navigator.canShare && navigator.canShare({ files:[file] })){
         await navigator.share({
           title: "我的好眠指數",
@@ -794,8 +781,7 @@ function fitShareCardPreview(){
           files: [file]
         });
       }else{
-        // fallback：直接下載
-        alert("這個瀏覽器不支援直接分享圖片，已改用「下載圖卡」方式最穩～");
+        alert("這個瀏覽器不支援直接分享圖片，已改用「下載結果圖片」。");
         await downloadCard();
       }
     }
@@ -837,7 +823,6 @@ function fitShareCardPreview(){
     btnResult.addEventListener('click', showResults);
     btnReset.addEventListener('click', resetGame);
 
-    // ✅ 產生圖卡（開 modal + 更新內容）
     btnCard.addEventListener('click', async ()=>{
       if(!latestPack){
         alert("請先點「查看我的檢測結果」產生結果後，再產生圖卡喔！");
@@ -847,7 +832,6 @@ function fitShareCardPreview(){
       openModal();
     });
 
-    // ✅ 分享結果（優先開 modal，讓使用者先看圖）
     btnShare.addEventListener('click', async ()=>{
       if(!latestPack){
         alert("請先點「查看我的檢測結果」產生結果後，再分享喔！");
@@ -864,10 +848,10 @@ function fitShareCardPreview(){
 
     btnDownloadCard.addEventListener('click', downloadCard);
     btnSystemShare.addEventListener('click', systemShare);
-window.addEventListener('resize', () => {
-  if(cardModal.classList.contains('open')) fitShareCardPreview();
-});
-    
+
+    window.addEventListener('resize', ()=>{
+      if(cardModal.classList.contains('open')) fitShareCardPreview();
+    });
   </script>
 </body>
 </html>
