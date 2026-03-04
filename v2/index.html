@@ -350,19 +350,29 @@
 
     /* 固定 1080x1920 原尺寸（輸出用） */
     #shareCard{
-      width:1080px;
-      height:1920px;
-      background:var(--cardBg);
-      border-radius:44px;
-      padding:120px 90px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:flex-start;
-      color:var(--cardText);
-      position:relative;
-      transform-origin:center center;  /* ✅ 由 JS 套 scale */
-      will-change:transform;
+        width:1080px;
+  height:1920px;
+  background:var(--cardBg);
+  border-radius:44px;
+
+  /* （ QR+logo 安全區） */
+  padding:230px 90px 260px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  box-sizing:border-box;
+  color:var(--cardText);
+  position:relative;
+
+  /* 防止 iOS/Android 自動放大字導致跑版 */
+  -webkit-text-size-adjust:none;
+  text-size-adjust:none;
+}
+#shareCard *{
+  -webkit-text-size-adjust:none;
+  text-size-adjust:none;
     }
 
     .sc-title{
@@ -373,22 +383,29 @@
       margin:0 0 50px 0;
       color:#6f6256;
     }
-    .sc-emoji{
-      font-size:120px;
-      line-height:1;
-      margin:10px 0 34px 0;
-    }
+.sc-emoji{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:28px;
+  font-size:120px;
+  line-height:1;
+  margin:10px 0 34px 0;
+  white-space:nowrap;
+}
     .sc-h2{
       font-size:72px;
       font-weight:900;
       margin:0 0 26px 0;
       letter-spacing:.5px;
     }
-    .sc-score{
-      font-size:160px;
-      font-weight:900;
-      margin:0 0 24px 0;
-    }
+.sc-score{
+  font-size:160px;
+  font-weight:900;
+  margin:0 0 24px 0;
+  white-space:nowrap;
+  font-variant-numeric: tabular-nums;
+}
     .sc-label{
       font-size:70px;
       font-weight:900;
@@ -717,7 +734,7 @@
       const pack = latestPack;
 
       scEmoji.textContent = pack.banner; // ✅ 只顯示一次
-      scScore.textContent = `${score} / 8`;
+scScore.textContent = `${score}\u00A0/\u00A08`;
       scLabel.textContent = pack.label;
       scType.textContent = pack.type;
       scSub.textContent = pack.sub2;
@@ -739,21 +756,36 @@
       });
     }
 
-    async function exportCardBlob(){
-      // ✅ 輸出前先取消 transform，確保真 1080x1920
-      const prevTransform = shareCard.style.transform;
-      shareCard.style.transform = 'none';
+async function exportCardBlob(){
+  // 1) clone 一份乾淨的 1080x1920（避免被預覽縮放、overflow、modal 影響）
+  const clone = shareCard.cloneNode(true);
 
-      const canvas = await html2canvas(shareCard, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: null
-      });
+  // clone 不能重複 id，避免 DOM 查詢撞到
+  clone.id = "shareCardExport";
+  clone.style.transform = "none";
+  clone.style.position = "fixed";
+  clone.style.left = "-99999px";
+  clone.style.top = "0";
+  clone.style.zIndex = "999999";
+  clone.style.display = "flex";
 
-      shareCard.style.transform = prevTransform;
+  document.body.appendChild(clone);
 
-      return new Promise(resolve => canvas.toBlob(resolve, "image/png", 1));
-    }
+  // 2) 確保圖片/字體有時間渲染（避免 logo/QR 沒載完）
+  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+  // 3) 截圖
+  const canvas = await html2canvas(clone, {
+    scale: 2,
+    useCORS: true,
+    backgroundColor: null
+  });
+
+  // 4) 清理
+  clone.remove();
+
+  return new Promise(resolve => canvas.toBlob(resolve, "image/png", 1));
+}
 
     async function downloadCard(){
       const blob = await exportCardBlob();
