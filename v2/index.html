@@ -648,6 +648,24 @@
     window.addEventListener('resize', ()=>{
       if(cardModal.classList.contains('open')) fitCardPreview();
     });
+
+    function detectInAppBrowser(){
+
+  const ua = navigator.userAgent || navigator.vendor;
+
+  const isLine = ua.includes("Line");
+  const isInstagram = ua.includes("Instagram");
+  const isFB = ua.includes("FBAN") || ua.includes("FBAV");
+
+  if(isLine || isInstagram || isFB){
+
+    alert("目前是在社群APP內建瀏覽器開啟。\n為了正常下載或分享圖片，建議點右上角『⋯』→ 在瀏覽器開啟（Chrome / Safari）。");
+
+  }
+
+}
+
+detectInAppBrowser();
   </script>
 </body>
 </html>
